@@ -3,6 +3,7 @@ const cors = require("cors");
 const app = express();
 
 app.use(express.json());
+app.use(express.static("dist"));
 app.use(cors());
 
 const requestLogger = (request, response, next) => {
@@ -75,9 +76,9 @@ app.post("/api/notes", (request, response) => {
   }
 
   const note = {
+    id: generateId(),
     content: body.content,
     important: body.important || false,
-    id: generateId(),
   };
 
   notes = notes.concat(note);
