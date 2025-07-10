@@ -28,15 +28,21 @@ const App = () => {
     // New person: Add them!
     if (!foundPerson) {
       const newPerson = { name: newName, number: newNumber };
-      personService.create(newPerson).then(returnedPerson => {
-        setPersons([...persons, returnedPerson]);
-        setNewName("");
-        setNewNumber("");
-        setMessage(`Added ${returnedPerson.name}`);
-        setError(false);
-        setTimeout(() => setMessage(null), 5000);
-      });
-
+      personService
+        .create(newPerson)
+        .then(returnedPerson => {
+          setPersons([...persons, returnedPerson]);
+          setNewName("");
+          setNewNumber("");
+          setMessage(`Added ${returnedPerson.name}`);
+          setError(false);
+          setTimeout(() => setMessage(null), 5000);
+        })
+        .catch(error => {
+          setError(true);
+          setMessage(error.response.data.error);
+          setTimeout(() => setMessage(null), 5000);
+        });
       return;
     }
     // Duplicate person
